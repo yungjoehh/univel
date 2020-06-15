@@ -12,6 +12,8 @@
         <i class="fa fa-file" v-show="showIcons"></i>
         <i class="fa fa-code" v-show="showIcons"></i>
       </div>
+
+      <div class="formSection"></div>
     </div>
     <div class="moduleIntroduction pt-4">
       <h5 class="moduleIntro">Add Concepts</h5>
@@ -69,13 +71,15 @@ export default {
   },
   methods: {
     addText() {
-      const formSection = document.querySelector(".form-section");
+      const formSection = document.querySelector(".formSection");
+      if ([...formSection.children].length >= 1) return;
 
       const textInput = document.createElement("input");
       textInput.type = "text";
       textInput.className = "form-control mt-3";
 
       formSection.appendChild(textInput);
+
     }
   }
 };

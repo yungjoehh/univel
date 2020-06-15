@@ -9,8 +9,16 @@
       <div class="icons pt-2">
         <i class="fa fa-plus" @click="showIcons = !showIcons"></i>
         <i class="fa fa-link" v-show="showIcons"></i>
-        <i class="fa fa-align-left" v-show="showIcons" @click="addText"></i>
-        <i class="fa fa-image" v-show="showIcons"></i>
+        <i
+          class="fa fa-align-left"
+          v-show="showIcons"
+          @click="addText = !addText"
+        ></i>
+        <i
+          class="fa fa-image"
+          v-show="showIcons"
+          @click="addImage = !addImage"
+        ></i>
         <i class="fa fa-youtube" v-show="showIcons"></i>
         <i
           class="fa fa-file"
@@ -20,10 +28,8 @@
         <i class="fa fa-code" v-show="showIcons"></i>
       </div>
 
-      <div class="form-section form-group mt-4"></div>
-
-      <form @change="fileUpload = !fileUpload">
-        <div class="addFiles text-center" v-if="addFiles">
+      <form class="mt-4" @change="fileUpload = !fileUpload" v-if="addFiles">
+        <div class="addFiles text-center" >
           <div class="custom-control custom-radio custom-control-inline">
             <input
               type="radio"
@@ -47,19 +53,28 @@
             >
           </div>
         </div>
+
+        <div class="fileUpload" v-if="fileUpload">
+          <form>
+            <div class="form-group">
+              <label for="localURL">File URL</label>
+              <input type="text" class="form-control" />
+            </div>
+            <div class="form-group">
+              <label for="addCaption">Add caption</label>
+              <input type="text" class="form-control" />
+            </div>
+          </form>
+        </div>
       </form>
 
-      <div class="fileUpload" v-if="fileUpload">
-        <form>
-          <div class="form-group">
-            <label for="localURL">File URL</label>
-            <input type="text" class="form-control" />
-          </div>
-          <div class="form-group">
-            <label for="addCaption">Add caption</label>
-            <input type="text" class="form-control" />
-          </div>
-        </form>
+      <div class="addtext mt-4" v-if="addText">
+        <input type="text" class="form-control" />
+      </div>
+
+      <div class="addImage mt-4" v-if="addImage">
+        <input type="text" class="form-control" v-model="imgUrl" />
+        <img :src="imgUrl" alt="image" />
       </div>
 
       <div class="text-right">
@@ -89,22 +104,15 @@ export default {
     return {
       showIcons: false,
       addFiles: false,
+      addText: false,
+      addImage: false,
       fileUpload: false,
       sectionTitle: "",
+      imgUrl: "",
       section: []
     };
   },
-  methods: {
-    addText() {
-      const formSection = document.querySelector(".form-section");
-
-      const textInput = document.createElement("input");
-      textInput.type = "text";
-      textInput.className = "form-control mt-3";
-
-      formSection.appendChild(textInput);
-    }
-  }
+  methods: {}
 };
 </script>
 
