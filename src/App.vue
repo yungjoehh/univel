@@ -56,9 +56,6 @@ body {
   transition: opacity 1s;
 }
 
-/* .fade-leave {
-  
-} */
 
 .fade-leave-active {
   transition: opacity cubic-bezier(0.075, 0.82, 0.165, 1);

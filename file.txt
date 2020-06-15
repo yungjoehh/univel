@@ -1,0 +1,316 @@
+# form component
+
+# <template>
+#   <div class="forms">
+#     <div class="card p-3">
+#       <form>
+#         <div class="form-group">
+#           <label for="section-title">Section title</label>
+#           <input
+#             type="text"
+#             class="form-control sec-title"
+#             v-model="sectionTitle"
+#           />
+#         </div>
+
+#         <div class="form-group">
+#           <label for="section-introduction">Section introduction</label>
+
+#           <div class="links">
+#             <i class="fa fa-plus link" @click="showIcons = !showIcons"></i>
+#             <i class="fa fa-link link" v-show="showIcons"></i>
+#             <i
+#               class="fa fa-align-left second link"
+#               v-show="showIcons"
+#               @click="addText"
+#             ></i>
+#             <i class="fa fa-image link" v-show="showIcons" @click="addFile"></i>
+#             <i class="fa fa-youtube link" v-show="showIcons"></i>
+#             <i class="fa fa-code link" v-show="showIcons"></i>
+#             <i class="fa fa-file link" v-show="showIcons"></i>
+#           </div>
+#           <div class="formSection form-group mt-4"></div>
+#           <div class="text-right">
+#             <button class="addSection btn btn-primary mt-3">
+#               <router-link tag="a" to="/addModule">Add Module</router-link>
+#             </button>
+#           </div>
+#         </div>
+#       </form>
+#     </div>
+#     <div class="card-footer s">
+#       <div class="createClass" @click="back">
+#         <i class="fa fa-chevron-left"></i>
+#         Create a Class
+#       </div>
+
+#       <div class="createClass">
+#         Add Module Content
+#         <i class="fa fa-chevron-right"></i>
+#       </div>
+#     </div>
+#   </div>
+# </template>
+
+# <script>
+# export default {
+#   name: "Form",
+#   data: function() {
+#     return {
+#       sectionTitle: "",
+#       addModule: false,
+#       showIcons: false
+#     };
+#   },
+#   methods: {
+#     addText() {
+#       const formSection = document.querySelector(".formSection");
+
+#       let input;
+#       if (input) return;
+#       input = document.createElement("input");
+#       input.type = "text";
+#       input.className = "form-control mt-4";
+
+#       formSection.appendChild(input);
+#     }
+#   }
+# };
+# </script>
+
+# <style scoped>
+# a {
+#   color: white;
+#   text-decoration: none;
+# }
+
+# .links {
+#   display: flex;
+# }
+# .link {
+#   /* background: #000; */
+#   width: 50px;
+#   height: 50px;
+#   border: 1px solid black;
+#   border-radius: 50%;
+#   text-align: center;
+#   display: flex;
+#   justify-content: center;
+#   align-items: center;
+#   font-size: 20px;
+#   margin-right: 5px;
+#   cursor: pointer;
+#   transition: 0.1s;
+# }
+
+# .link:hover {
+#   background: #000;
+#   color: white;
+# }
+
+# .opaque {
+#   opacity: 1;
+# }
+
+# .link:first-child {
+#   opacity: 1;
+# }
+
+# .createClass,
+# .addModule {
+#   cursor: pointer;
+# }
+
+# .s {
+#   display: flex;
+#   justify-content: space-between;
+# }
+# </style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+# addModule component
+
+
+# <template>
+#   <div class="forms">
+#     <div class="card p-3">
+#       <p v-if="isValid" class="alert alert-danger">
+#         Module title and introduction cannot be empty
+#       </p>
+
+#       <form @submit.prevent="addModules" @keydown.enter="addModules">
+#         <div class="form-group">
+#           <label for="section-title">Module one(title)</label>
+#           <input type="text" class="form-control" v-model="moduleTitle" />
+#         </div>
+
+#         <div class="form-group">
+#           <label for="section-introduction">Module introduction</label>
+#           <textarea class="form-control" v-model="introduction"></textarea>
+
+#           <div class="text-right">
+#             <button class="btn btn-primary mt-3">Add Module</button>
+#           </div>
+#         </div>
+#       </form>
+#     </div>
+#     <div class="card-footer s">
+#       <div class="createClass" @click="back">
+#         <i class="fa fa-chevron-left"></i>
+#         Create a Class
+#       </div>
+
+#       <div class="createClass" @click="go">
+#         Add Module Content
+#         <i class="fa fa-chevron-right"></i>
+#       </div>
+#     </div>
+#   </div>
+# </template>
+
+# <script>
+# export default {
+#   name: "Form",
+#   data: function() {
+#     return {
+#       moduleTitle: "",
+#       introduction: "",
+#       modules: [],
+#       isValid: false,
+#       addModule: false,
+#       showIcons: false
+#     };
+#   },
+#   methods: {
+#     addModules() {
+#       if (this.moduleTitle == "" || this.introduction == "") {
+#         this.isValid = true;
+#       } else {
+#         this.isValid = false;
+#         this.modules.push({
+#           module: this.moduleTitle,
+#           intro: this.introduction
+#         });
+#       }
+#     },
+#     back() {
+#       this.$router.push("/form");
+#     },
+#     go() {
+#       this.$router.push("/moduleContents")
+#     }
+#   }
+# };
+# </script>
+
+# <style scoped>
+# a {
+#   color: white;
+#   text-decoration: none;
+# }
+
+# .addModule {
+#   background: #18355d !important;
+# }
+
+# .createClass,
+# .addModule {
+#   cursor: pointer;
+# }
+
+# textarea {
+#   resize: none;
+#   height: 200px !important;
+# }
+
+# .s {
+#   display: flex;
+#   justify-content: space-between;
+# }
+# </style>
+
+
+
+
+
+
+
+# moduleContents component
+
+# <template>
+#   <div class="card p-3">
+#     <div class="form-group">
+#       <label for="section-introduction">Section introduction</label>
+
+#       <div class="links">
+#         <i class="fa fa-plus link" @click="showIcons = !showIcons"></i>
+#         <i class="fa fa-link link" v-show="showIcons"></i>
+#         <i
+#           class="fa fa-align-left second link"
+#           v-show="showIcons"
+#           @click="addText"
+#         ></i>
+#         <i class="fa fa-image link" v-show="showIcons" @click="addFile"></i>
+#         <i class="fa fa-youtube link" v-show="showIcons"></i>
+#         <i class="fa fa-code link" v-show="showIcons"></i>
+#         <i class="fa fa-file link" v-show="showIcons"></i>
+#       </div>
+#     </div>
+#   </div>
+# </template>
+
+# <script>
+# export default {
+#   name: "ModuleContents",
+#   data: function() {
+#     return {
+#       showIcons: false
+#     };
+#   }
+# };
+# </script>
+
+# <style>
+# .links {
+#   display: flex;
+# }
+# .link {
+#   /* background: #000; */
+#   width: 50px;
+#   height: 50px;
+#   border: 1px solid black;
+#   border-radius: 50%;
+#   text-align: center;
+#   display: flex;
+#   justify-content: center;
+#   align-items: center;
+#   font-size: 20px;
+#   margin-right: 5px;
+#   cursor: pointer;
+#   transition: 0.1s;
+# }
+
+# .link:hover {
+#   background: #000;
+#   color: white;
+# }
+
+# .opaque {
+#   opacity: 1;
+# }
+
+# .link:first-child {
+#   opacity: 1;
+# }
+# </style>

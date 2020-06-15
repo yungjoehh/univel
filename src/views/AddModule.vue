@@ -1,146 +1,94 @@
 <template>
   <div class="forms">
     <div class="card p-3">
-      <form @submit.prevent="addClass">
+      <p v-if="isValid" class="alert alert-danger">
+        Module title and introduction cannot be empty
+      </p>
+
+      <form @submit.prevent="addModules" @keydown.enter="addModules">
         <div class="form-group">
           <label for="section-title">Module one(title)</label>
-          <input
-            type="text"
-            class="form-control sec-title"
-            v-model="moduleTitle"
-          />
+          <input type="text" class="form-control" v-model="moduleTitle" />
         </div>
 
         <div class="form-group">
           <label for="section-introduction">Module introduction</label>
           <textarea class="form-control" v-model="introduction"></textarea>
 
-          <div class="links">
-            <i class="fa fa-plus link" @click="showIcons = !showIcons"></i>
-            <i class="fa fa-link link" v-show="showIcons"></i>
-            <i
-              class="fa fa-align-left second link"
-              v-show="showIcons"
-              @click="addText"
-            ></i>
-            <i class="fa fa-image link" v-show="showIcons"></i>
-            <i class="fa fa-youtube link" v-show="showIcons"></i>
-            <i class="fa fa-code link" v-show="showIcons"></i>
-            <i class="fa fa-file link" v-show="showIcons"></i>
-          </div>
-          <div class="formSection form-group mt-4"></div>
           <div class="text-right">
-            <button class="addSection btn btn-primary mt-3">
-              <router-link tag="a" to="/addModule">Add Module</router-link>
+            <button class="btn btn-primary mt-3" @click="addModules">
+              Add Module
             </button>
           </div>
         </div>
       </form>
     </div>
     <div class="card-footer s">
-      <div class="createClass">
+      <div class="createClass" @click="back">
         <i class="fa fa-chevron-left"></i>
         Create a Class
       </div>
-      <div v-if="addModule" class="addModule">
-        <a href="./addSection.html">Add Module</a>
+
+      <div class="moduleClass" @click="go">
+        Add Module Content
         <i class="fa fa-chevron-right"></i>
       </div>
     </div>
-
-    <!-- <button @click="addModule = !addModule">Hide</button> -->
   </div>
 </template>
 
 <script>
 export default {
-  name: "Form",
+  name: "AddModule",
   data: function() {
     return {
       moduleTitle: "",
       introduction: "",
-      addModule: false,
-      showIcons: false
+      modules: [],
+      isValid: false
     };
   },
   methods: {
-    addText: () => {
-      const formSection = document.querySelector(".formSection");
-      const input = document.createElement("input");
-      input.type = "text";
-      input.className = "form-control mt-4";
-
-      formSection.appendChild(input);
-      // console.log(formSection);
+    addModules() {
+      if (this.moduleTitle == "" || this.introduction == "") {
+        this.isValid = true;
+      } else {
+        this.isValid = false;
+        this.modules.push({
+          title: this.moduleTitle,
+          introduction: this.introduction
+        });
+        console.log(this.modules);
+      }
+    },
+    go() {
+      this.$router.push('/moduleContents');
+    },
+    back() {
+      this.$router.push('/form');
     }
   }
 };
 </script>
 
 <style scoped>
-a {
-  color: white;
-  text-decoration: none;
-}
-
-.links {
+.s {
   display: flex;
+  justify-content: space-between;
 }
-.link {
-  /* background: #000; */
-  width: 50px;
-  height: 50px;
-  border: 1px solid black;
-  border-radius: 50%;
-  text-align: center;
+
+textarea {
+  height: 200px;
+  resize: none;
+}
+
+.s {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 20px;
-  /* color: rgb(146, 140, 140); */
-  margin-right: 5px;
-  /* opacity: 0; */
-  cursor: pointer;
-  /* transition: all .8s; */
-  transition: 0.1s;
+  justify-content: space-between;
 }
 
-.link:hover {
-  background: #000;
-  color: white;
-}
-
-.opaque {
-  opacity: 1;
-}
-
-.link:first-child {
-  opacity: 1;
-}
-
-/* .first {
-  transition-delay: 0.5s;
-}
-.second {
-  transition-delay: 0.6s;
-}
-.third {
-  transition-delay: 0.7s;
-}
-.fourth {
-  transition-delay: 0.8s;
-}
-
-.fifth {
-  transition-delay: 0.9s;
-}
-
-.sixth {
-  transition-delay: 1s;
-} */
-
-.createClass,
-.addModule {
+.moduleClass,
+.createClass {
   cursor: pointer;
 }
 </style>

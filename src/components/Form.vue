@@ -1,53 +1,84 @@
 <template>
   <div class="forms">
     <div class="card p-3">
-      <form @submit.prevent="addClass">
-        <div class="form-group">
-          <label for="section-title">Section title</label>
-          <input
-            type="text"
-            class="form-control sec-title"
-            v-model="sectionTitle"
-          />
-        </div>
+      <div class="form-group">
+        <label for="title">Section Title</label>
+        <input type="text" class="form-control" v-model="sectionTitle" />
+      </div>
 
-        <div class="form-group">
-          <label for="section-introduction">Section introduction</label>
+      <div class="icons pt-2">
+        <i class="fa fa-plus" @click="showIcons = !showIcons"></i>
+        <i class="fa fa-link" v-show="showIcons"></i>
+        <i class="fa fa-align-left" v-show="showIcons" @click="addText"></i>
+        <i class="fa fa-image" v-show="showIcons"></i>
+        <i class="fa fa-youtube" v-show="showIcons"></i>
+        <i
+          class="fa fa-file"
+          v-show="showIcons"
+          @click="addFiles = !addFiles"
+        ></i>
+        <i class="fa fa-code" v-show="showIcons"></i>
+      </div>
 
-          <div class="links mt-3">
-            <i class="fa fa-plus link" @click="showIcons = !showIcons"></i>
-            <i class="fa fa-link link" v-show="showIcons"></i>
-            <i
-              class="fa fa-align-left second link"
-              v-show="showIcons"
-              @click="addText"
-            ></i>
-            <i class="fa fa-image link" v-show="showIcons"></i>
-            <i class="fa fa-youtube link" v-show="showIcons"></i>
-            <i class="fa fa-code link" v-show="showIcons"></i>
-            <i class="fa fa-file link" v-show="showIcons"></i>
+      <div class="form-section form-group mt-4"></div>
+
+      <form @change="fileUpload = !fileUpload">
+        <div class="addFiles text-center" v-if="addFiles">
+          <div class="custom-control custom-radio custom-control-inline">
+            <input
+              type="radio"
+              class="custom-control-input"
+              id="customRadio1"
+              name="fileType"
+            />
+            <label class="custom-control-label" for="customRadio1"
+              >From Url</label
+            >
           </div>
-          <div class="formSection form-group mt-4"></div>
-          <div class="text-right">
-            <button class="addSection btn btn-primary mt-3">
-              <router-link tag="a" to="/addModule">Add Module</router-link>
-            </button>
+          <div class="custom-control custom-radio custom-control-inline">
+            <input
+              type="radio"
+              class="custom-control-input"
+              id="customRadio2"
+              name="fileType"
+            />
+            <label class="custom-control-label" for="customRadio2"
+              >Upload File</label
+            >
           </div>
         </div>
       </form>
+
+      <div class="fileUpload" v-if="fileUpload">
+        <form>
+          <div class="form-group">
+            <label for="localURL">File URL</label>
+            <input type="text" class="form-control" />
+          </div>
+          <div class="form-group">
+            <label for="addCaption">Add caption</label>
+            <input type="text" class="form-control" />
+          </div>
+        </form>
+      </div>
+
+      <div class="text-right">
+        <button class="addSection btn btn-primary mt-3">
+          <router-link tag="a" to="/addModule">Add Module</router-link>
+        </button>
+      </div>
     </div>
     <div class="card-footer s">
       <div class="createClass">
         <i class="fa fa-chevron-left"></i>
         Create a Class
       </div>
-      <div v-if="addModule" class="addModule">
-        <a href="./addSection.html">Add Module</a>
+
+      <div class="moduleClass">
+        Add Module Content
         <i class="fa fa-chevron-right"></i>
       </div>
     </div>
-
-    <!-- <button @click="addModule = !addModule">Hide</button> -->
   </div>
 </template>
 
@@ -56,90 +87,82 @@ export default {
   name: "Form",
   data: function() {
     return {
+      showIcons: false,
+      addFiles: false,
+      fileUpload: false,
       sectionTitle: "",
-      addModule: false,
-      showIcons: false
+      section: []
     };
   },
   methods: {
-    addText: () => {
-      const formSection = document.querySelector(".formSection");
-      const input = document.createElement("input");
-      input.type = "text";
-      input.className = "form-control mt-4";
+    addText() {
+      const formSection = document.querySelector(".form-section");
 
-      formSection.appendChild(input);
-      // console.log(formSection);
+      const textInput = document.createElement("input");
+      textInput.type = "text";
+      textInput.className = "form-control mt-3";
+
+      formSection.appendChild(textInput);
     }
   }
 };
 </script>
 
 <style scoped>
-a {
-  color: white;
-  text-decoration: none;
+.icons {
+  display: flex;
 }
 
-.links {
-  display: flex;
-  margin-top: 10px;
-}
-.link {
-  /* background: #000; */
-  width: 50px;
-  height: 50px;
-  border: 1px solid black;
+.icons i {
+  width: 30px;
+  height: 30px;
+  margin: 0 5px;
+  padding: 20px;
+  font-size: 22px;
   border-radius: 50%;
+  border: 2px solid black;
   text-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 20px;
-  /* color: rgb(146, 140, 140); */
-  margin-right: 5px;
-  /* opacity: 0; */
   cursor: pointer;
-  /* transition: all .8s; */
-  transition: 0.1s;
+  transition: all 400ms;
 }
 
-.link:hover {
+.icons i:hover {
   background: #000;
-  color: white;
+  color: #f1f1f1;
 }
 
-.opaque {
-  opacity: 1;
+a {
+  color: #f1f1f1 !important;
 }
 
-.link:first-child {
-  opacity: 1;
+a:hover {
+  text-decoration: none !important;
 }
 
-/* .first {
-  transition-delay: 0.5s;
-}
-.second {
-  transition-delay: 0.6s;
-}
-.third {
-  transition-delay: 0.7s;
-}
-.fourth {
-  transition-delay: 0.8s;
+button {
+  background: #08476b !important;
+  border: none !important;
 }
 
-.fifth {
-  transition-delay: 0.9s;
+button:hover {
+  background: #033552 !important;
 }
 
-.sixth {
-  transition-delay: 1s;
-} */
+.s {
+  display: flex;
+  justify-content: space-between;
+}
 
 .createClass,
-.addModule {
+.moduleClass {
   cursor: pointer;
+}
+
+.form-check {
+  padding-left: 0px !important;
+  margin-left: 5px !important;
 }
 </style>
